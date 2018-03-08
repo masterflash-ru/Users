@@ -3,7 +3,6 @@ namespace Mf\Users\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Mf\Users\Entity\User;
 use Mf\Users\Form\UserForm;
 use Mf\Users\Form\PasswordChangeForm;
 use Mf\Users\Form\PasswordResetForm;
@@ -15,24 +14,25 @@ use Mf\Users\Form\PasswordResetForm;
 class UserController extends AbstractActionController 
 {
     /**
-     * Entity manager.
-     * @var Doctrine\ORM\EntityManager
      */
-    private $entityManager;
+    protected $connection;
+    
+    protected $config;
     
     /**
      * User manager.
-     * @var User\Service\UserManager 
      */
-    private $userManager;
+    protected $userManager;
     
     /**
      * Constructor. 
      */
-    public function __construct($entityManager, $userManager)
+    public function __construct($connection, $userManager,$config)
     {
-        $this->entityManager = $entityManager;
+        $this->connection = $connection;
         $this->userManager = $userManager;
+        $this->config=$config;
+        
     }
     
     /**
@@ -229,8 +229,12 @@ class UserController extends AbstractActionController
      */
     public function resetPasswordAction()
     {
-        // Create form
-        $form = new PasswordResetForm();
+        //здесь создаем капчу исходя из настроек 
+        $options=$this->config["captcha"]["options"][$this->config["captcha"]["adapter"]];
+        $adapter= "\\".$this->config["captcha"]["adapter"];
+        $captcha=new $adapter($options);
+
+        $form = new PasswordResetForm($captcha);
         
         // Check if user has submitted the form
         if ($this->getRequest()->isPost()) {

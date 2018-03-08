@@ -6,99 +6,64 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\Result;
 use Zend\Uri\Uri;
-use User\Form\LoginForm;
-use User\Entity\User;
+use Mf\Users\Form\LoginForm;
 
 /**
  * This controller is responsible for letting the user to log in and log out.
  */
 class AuthController extends AbstractActionController
 {
-    /**
-     * Entity manager.
-     * @var Doctrine\ORM\EntityManager 
-     */
-    private $entityManager;
     
     /**
-     * Auth manager.
-     * @var User\Service\AuthManager 
+    * менеджер авторизации
      */
-    private $authManager;
+    protected $authManager;
     
-    /**
-     * Auth service.
-     * @var \Zend\Authentication\AuthenticationService
-     */
-    private $authService;
-    
-    /**
-     * User manager.
-     * @var User\Service\UserManager
-     */
-    private $userManager;
-    
-    /**
-     * Constructor.
-     */
-    public function __construct($entityManager, $authManager, $authService, $userManager)
+
+    public function __construct($authManager)
     {
-        $this->entityManager = $entityManager;
         $this->authManager = $authManager;
-        $this->authService = $authService;
-        $this->userManager = $userManager;
     }
     
     /**
-     * Authenticates user given email address and password credentials.     
+     * вывод формы авторизации и обработка информации из нее (POST)
      */
     public function loginAction()
     {
-        // Retrieve the redirect URL (if passed). We will redirect the user to this
-        // URL after successfull login.
         $redirectUrl = (string)$this->params()->fromQuery('redirectUrl', '');
         if (strlen($redirectUrl)>2048) {
             throw new \Exception("Too long redirectUrl argument passed");
         }
         
-        // Check if we do not have users in database at all. If so, create 
-        // the 'Admin' user.
-        $this->userManager->createAdminUserIfNotExists();
         
-        // Create login form
+        //форма авторизации
         $form = new LoginForm(); 
         $form->get('redirect_url')->setValue($redirectUrl);
         
         // Store login status.
         $isLoginError = false;
         
-        // Check if user has submitted the form
+        //был POST?
         if ($this->getRequest()->isPost()) {
             
-            // Fill in the form with POST data
+            //все данные из POST
             $data = $this->params()->fromPost();            
             
             $form->setData($data);
             
-            // Validate form
+            //данные валидные?
             if($form->isValid()) {
-                
-                // Get filtered and validated data
                 $data = $form->getData();
+
+                $result = $this->authManager->login($data['email'], $data['password'], $data['remember_me']);
                 
-                // Perform login attempt.
-                $result = $this->authManager->login($data['email'], 
-                        $data['password'], $data['remember_me']);
-                
-                // Check result.
+                //авторизовался нормально?
                 if ($result->getCode() == Result::SUCCESS) {
                     
                     // Get redirect URL.
                     $redirectUrl = $this->params()->fromPost('redirect_url', '');
                     
                     if (!empty($redirectUrl)) {
-                        // The below check is to prevent possible redirect attack 
-                        // (if someone tries to redirect user to another domain).
                         $uri = new Uri($redirectUrl);
                         if (!$uri->isValid() || $uri->getHost()!=null)
                             throw new \Exception('Incorrect redirect URL: ' . $redirectUrl);

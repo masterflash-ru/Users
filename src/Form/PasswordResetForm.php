@@ -9,12 +9,13 @@ use Zend\InputFilter\InputFilter;
  */
 class PasswordResetForm extends Form
 {
+    protected $captcha;
     /**
      * Constructor.     
      */
-    public function __construct()
+    public function __construct($captcha)
     {
-        // Define form name
+        $this->captcha=$captcha;
         parent::__construct('password-reset-form');
      
         // Set POST method for this form
@@ -38,28 +39,17 @@ class PasswordResetForm extends Form
             ],
         ]);
         
-        // Add the CAPTCHA field
-        $this->add([
-            'type' => 'captcha',
-            'name' => 'captcha',
-            'options' => [
-                'label' => 'Human check',
-                'captcha' => [
-                    'class' => 'Image',
-                    'imgDir' => 'public/img/captcha',
-                    'suffix' => '.png',
-                    'imgUrl' => '/img/captcha/',
-                    'imgAlt' => 'CAPTCHA Image',
-                    'font' => './data/font/thorne_shaded.ttf',
-                    'fsize' => 24,
-                    'width' => 350,
-                    'height' => 100,
-                    'expiration' => 600,
-                    'dotNoiseLevel' => 40,
-                    'lineNoiseLevel' => 3
-                ],
-            ],
-        ]);
+		 $this->add([
+					'type' =>"Captcha",
+					'name' => 'captcha',
+					'options' => [
+						'label' => '',
+						'captcha' =>$this->captcha,
+					],
+					'attributes' => [                
+						'placeholder'=>'Символы с картинки',
+					],
+				]);
         
         // Add the CSRF field
         $this->add([
