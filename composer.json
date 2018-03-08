@@ -1,0 +1,36 @@
+{
+    "name": "masterflash-ru/users",
+    "description": "Регистрация, кабинет посетителя сайта",
+    "type": "Service",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "masterflash"
+    ],
+    "homepage": "https://masterflash.ru/",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.1",
+        "masterflash-ru/permissions": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mf\\Users\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mf\\Users\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.1-dev",
+            "dev-develop": "0.0.1-dev"
+        },
+        "zf": {
+            "component": "Mf\\Users",
+            "config-provider": "masterflash-ru\\Mf\\Users\\ConfigProvider"
+        }
+    }
+}
