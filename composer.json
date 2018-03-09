@@ -12,7 +12,10 @@
     "require": {
         "php": "^7.1",
         "masterflash-ru/permissions": "*",
-        "zendframework/zend-mvc-plugin-prg": "^1.0"
+        "zendframework/zend-mvc-plugin-prg": "^1.0",
+        "zendframework/zend-form": "^2.10",
+        "zendframework/zend-cache": "^2.7",
+        "zendframework/zend-inputfilter": "^2.7"
     },
     "autoload": {
         "psr-4": {
