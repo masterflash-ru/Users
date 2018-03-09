@@ -11,7 +11,8 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "masterflash-ru/permissions": "*"
+        "masterflash-ru/permissions": "*",
+        "zendframework/zend-mvc-plugin-prg": "^1.0"
     },
     "autoload": {
         "psr-4": {

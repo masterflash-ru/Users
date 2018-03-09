@@ -30,12 +30,12 @@ class LoginForm extends Form
      */
     protected function addElements() 
     {
-        // Add "email" field
+
         $this->add([            
             'type'  => 'text',
-            'name' => 'email',
+            'name' => 'login',
             'options' => [
-                'label' => 'Your E-mail',
+                'label' => 'Ваш логин',
             ],
         ]);
         
@@ -44,7 +44,7 @@ class LoginForm extends Form
             'type'  => 'password',
             'name' => 'password',
             'options' => [
-                'label' => 'Password',
+                'label' => 'Пароль',
             ],
         ]);
         
@@ -53,16 +53,11 @@ class LoginForm extends Form
             'type'  => 'checkbox',
             'name' => 'remember_me',
             'options' => [
-                'label' => 'Remember me',
+                'label' => 'Запомнить меня',
             ],
         ]);
         
-        // Add "redirect_url" field
-        $this->add([            
-            'type'  => 'hidden',
-            'name' => 'redirect_url'
-        ]);
-        
+    
         // Add the CSRF field
         $this->add([
             'type' => 'csrf',
@@ -79,7 +74,7 @@ class LoginForm extends Form
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [                
-                'value' => 'Sign in',
+                'value' => 'Войти',
                 'id' => 'submit',
             ],
         ]);
@@ -90,13 +85,11 @@ class LoginForm extends Form
      */
     private function addInputFilter() 
     {
-        // Create main input filter
         $inputFilter = new InputFilter();        
         $this->setInputFilter($inputFilter);
                 
-        // Add input for "email" field
         $inputFilter->add([
-                'name'     => 'email',
+                'name'     => 'login',
                 'required' => true,
                 'filters'  => [
                     ['name' => 'StringTrim'],                    
@@ -145,23 +138,6 @@ class LoginForm extends Form
                 ],
             ]);
         
-        // Add input for "redirect_url" field
-        $inputFilter->add([
-                'name'     => 'redirect_url',
-                'required' => false,
-                'filters'  => [
-                    ['name'=>'StringTrim']
-                ],                
-                'validators' => [
-                    [
-                        'name'    => 'StringLength',
-                        'options' => [
-                            'min' => 0,
-                            'max' => 2048
-                        ]
-                    ],
-                ],
-            ]);
     }        
 }
 
