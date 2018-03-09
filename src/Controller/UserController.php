@@ -6,6 +6,9 @@ use Zend\View\Model\ViewModel;
 use Mf\Users\Form\UserForm;
 use Mf\Users\Form\PasswordChangeForm;
 use Mf\Users\Form\PasswordResetForm;
+use ADO\Service\RecordSet;
+use ADO\Service\Command;
+use Mf\Permissions\Entity\Users;
 
 /**
  * This controller is responsible for user management (adding, editing, 
@@ -49,41 +52,6 @@ class UserController extends AbstractActionController
         ]);
     } 
     
-    /**
-     * This action displays a page allowing to add a new user.
-     */
-    public function addAction()
-    {
-        // Create user form
-        $form = new UserForm('create', $this->entityManager);
-        
-        // Check if user has submitted the form
-        if ($this->getRequest()->isPost()) {
-            
-            // Fill in the form with POST data
-            $data = $this->params()->fromPost();            
-            
-            $form->setData($data);
-            
-            // Validate form
-            if($form->isValid()) {
-                
-                // Get filtered and validated data
-                $data = $form->getData();
-                
-                // Add user.
-                $user = $this->userManager->addUser($data);
-                
-                // Redirect to "view" page
-                return $this->redirect()->toRoute('users', 
-                        ['action'=>'view', 'id'=>$user->getId()]);                
-            }               
-        } 
-        
-        return new ViewModel([
-                'form' => $form
-            ]);
-    }
     
     /**
      * The "view" action displays a page allowing to view user's details.
@@ -233,41 +201,52 @@ class UserController extends AbstractActionController
         $options=$this->config["captcha"]["options"][$this->config["captcha"]["adapter"]];
         $adapter= "\\".$this->config["captcha"]["adapter"];
         $captcha=new $adapter($options);
+        $prg = $this->prg();
+        if ($prg instanceof Response) {
+            //сюда попадаем когда форма отправлена, производим редирект
+            return $prg;
+        }
+
+        $view=new ViewModel();
 
         $form = new PasswordResetForm($captcha);
         
-        // Check if user has submitted the form
-        if ($this->getRequest()->isPost()) {
+        if ($prg === false){
+          //вывод страницы и формы
+          $view->setVariables(["form"=>$form]);
+          return $view;
+        }
+        $form->setData($prg);
+
+        if($form->isValid()) {
+            $data = $form->getData();
+            // получим ID юзера по его логину, если он есть
+            $c=new Command();
+            $c->NamedParameters=true;
+            $c->ActiveConnection=$this->connection;
+            $p=$c->CreateParameter('login', adChar, adParamInput, 50, $data['login']);//генерируем объек параметров
+            $c->Parameters->Append($p);//добавим в коллекцию
+            $c->CommandText="select * from users where login=:login";
             
-            // Fill in the form with POST data
-            $data = $this->params()->fromPost();            
+            $rs=new RecordSet();
+            $rs->CursorType =adOpenKeyset;
+            $rs->Open($c);
             
-            $form->setData($data);
-            
-            // Validate form
-            if($form->isValid()) {
-                
-                // Look for the user with such email.
-                $user = $this->entityManager->getRepository(User::class)
-                        ->findOneByEmail($data['email']);                
-                if ($user!=null) {
+            $users= $rs->FetchEntity(Users::class);
+            if ($user!=null) {
                     // Generate a new password for user and send an E-mail 
                     // notification about that.
                     $this->userManager->generatePasswordResetToken($user);
                     
                     // Redirect to "message" page
-                    return $this->redirect()->toRoute('users', 
-                            ['action'=>'message', 'id'=>'sent']);                 
-                } else {
-                    return $this->redirect()->toRoute('users', 
-                            ['action'=>'message', 'id'=>'invalid-email']);                 
-                }
-            }               
-        } 
-        
-        return new ViewModel([                    
-            'form' => $form
-        ]);
+                    return $this->redirect()->toRoute('users',   ['action'=>'message', 'id'=>'sent']);                 
+            } else {
+                    return $this->redirect()->toRoute('users',   ['action'=>'message', 'id'=>'invalid-email']);                 
+            }
+        }               
+
+        $view->setVariables(["form"=>$form]);
+        return $view;
     }
     
     /**

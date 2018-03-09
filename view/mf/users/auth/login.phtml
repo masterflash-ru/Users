@@ -1,8 +1,6 @@
 <?php
 
-
-
-$form->get('email')->setAttributes([
+$form->get('login')->setAttributes([
     'class'=>'form-control', 
     'placeholder'=>'Email address',
     'required' => true,
@@ -10,6 +8,10 @@ $form->get('email')->setAttributes([
     ])
     ->setLabelAttributes([
         'class' => 'sr-only'
+    ]);
+
+$form->get('submit')->setAttributes([
+    'class'=>'btn btn-lg btn-primary btn-block', 
     ]);
 
 $form->get('password')->setAttributes([
@@ -26,14 +28,16 @@ $form->get('password')->setAttributes([
     <div class="col-md-offset-4 col-md-3">
         <form class="form-signin" method="post">
             <h2 class="form-signin-heading">Please sign in</h2>
-            <?php if ($isLoginError): ?>
+            <?php if ($isLoginError){
+            ?>
             <div class="alert alert-warning" role="alert">
                 Неверный логин/пароль. 
                 <a href="<?= $this->url('reset-password') ?>">Забыли пароль?</a>
             </div>
-            <?php endif; ?>
-            <?= $this->formLabel($form->get('email')); ?>
-            <?= $this->formElement($form->get('email')); ?>
+            <?php 
+            } ?>
+            <?= $this->formLabel($form->get('login')); ?>
+            <?= $this->formElement($form->get('login')); ?>
             <?= $this->formLabel($form->get('password')); ?>
             <?= $this->formElement($form->get('password')); ?>
             <div class="checkbox">
@@ -41,9 +45,10 @@ $form->get('password')->setAttributes([
                     <?= $this->formElement($form->get('remember_me')); ?> Запомнить меня
                 </label>
             </div>
-            <?= $this->formElement($form->get('redirect_url')); ?>
+
             <?= $this->formElement($form->get('csrf')) ?>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">ОК</button>
+            <?= $this->FormButton($form->get('submit')); ?>
+
         </form>
     </div>
 </div>

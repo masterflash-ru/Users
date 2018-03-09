@@ -31,5 +31,6 @@ class Module
     
     public function onDispatch(MvcEvent $event)
     {
+        
     }
 }

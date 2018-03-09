@@ -43,7 +43,7 @@ class AuthController extends AbstractActionController
         
         if ($prg === false){
           //вывод страницы и формы
-          $view->setVariables(["form"=>$form]);
+          $view->setVariables(["form"=>$form,'isLoginError' => $isLoginError]);
           return $view;
         }
 
@@ -59,7 +59,7 @@ class AuthController extends AbstractActionController
             //авторизовался нормально?
             if ($result->getCode() == Result::SUCCESS) {
                     
-                    $redirectUrl = $this->params()->fromPost('redirect_url', '');
+
                     
                 } else {
                     $isLoginError = true;

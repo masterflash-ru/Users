@@ -35,7 +35,7 @@ class LoginForm extends Form
             'type'  => 'text',
             'name' => 'login',
             'options' => [
-                'label' => 'Ваш логин',
+                'label' => 'Логин',
             ],
         ]);
         
@@ -71,12 +71,16 @@ class LoginForm extends Form
         
         // Add the Submit button
         $this->add([
-            'type'  => 'submit',
+            'type'  => 'button',
             'name' => 'submit',
             'attributes' => [                
-                'value' => 'Войти',
-                'id' => 'submit',
+               // 'value' => 'Войти',
+                "type" =>"submit"
             ],
+            'options' => [
+                'label' => 'OK',
+            ],
+
         ]);
     }
     
