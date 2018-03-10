@@ -20,6 +20,8 @@ class UserController extends AbstractActionController
      */
     protected $connection;
     
+    protected $translator;
+    
     protected $config;
     
     /**
@@ -30,12 +32,13 @@ class UserController extends AbstractActionController
     /**
      * Constructor. 
      */
-    public function __construct($connection, $userManager,$config)
+    public function __construct($connection, $userManager,$config,$translator)
     {
         $this->connection = $connection;
         $this->userManager = $userManager;
         $this->config=$config;
-        
+        $translator->setLocale("ru");       //ставим ru, пока нет поддержки мультиязычности
+        $this->translator=$translator;
     }
     
     /**
@@ -209,7 +212,7 @@ class UserController extends AbstractActionController
 
         $view=new ViewModel();
 
-        $form = new PasswordResetForm($captcha);
+        $form = new PasswordResetForm($captcha,$this->translator);
         
         if ($prg === false){
           //вывод страницы и формы

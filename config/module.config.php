@@ -4,7 +4,6 @@ namespace Mf\Users;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 
-
 return [
     'router' => [
         'routes' => [
@@ -67,7 +66,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
-            Controller\UserController::class => Controller\Factory\UserControllerFactory::class,            
+            Controller\UserController::class => Controller\Factory\UserControllerFactory::class,
         ],
     ],
     'view_manager' => [
@@ -75,4 +74,14 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+    "users" => [
+        "routeNameAfterLogin"=>"home"   //имя маршрута куда переходим после авторизации
+    ],
+    /*дополнение новым статусом статичные страницы*/
+    "statpage"=>[
+        'status'=>[
+            3=>"Различные оповещения и письма посетителям"
+        ],
+    ],
+
 ];

@@ -3,7 +3,7 @@ namespace Mf\Users\Form;
 
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
-
+use Zend\Validator\AbstractValidator;
 /**
  * This form is used to collect user's E-mail address (used to recover password).
  */
@@ -13,8 +13,13 @@ class PasswordResetForm extends Form
     /**
      * Constructor.     
      */
-    public function __construct($captcha)
+    public function __construct($captcha,$translator=null)
     {
+        if ($translator){
+            AbstractValidator::setDefaultTranslator($translator);
+        }
+
+    
         $this->captcha=$captcha;
         parent::__construct('password-reset-form');
      

@@ -5,6 +5,7 @@ use Interop\Container\ContainerInterface;
 
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Mf\Permissions\Service\AuthManager;
+use Zend\Validator\Translator\TranslatorInterface;
 
 /**
  * This is the factory for AuthController. Its purpose is to instantiate the controller
@@ -16,7 +17,8 @@ class AuthControllerFactory implements FactoryInterface
     {   
 
         $authManager = $container->get(AuthManager::class);
-    
-        return new $requestedName($authManager);
+        $config = $container->get("config");
+        $translator = $container->get(TranslatorInterface::class);
+        return new $requestedName($authManager,$config,$translator);
     }
 }

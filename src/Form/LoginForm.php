@@ -4,6 +4,7 @@ namespace Mf\Users\Form;
 use Zend\Form\Form;
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilter;
+use Zend\Validator\AbstractValidator;
 
 /**
  * This form is used to collect user's login, password and 'Remember Me' flag.
@@ -13,9 +14,12 @@ class LoginForm extends Form
     /**
      * Constructor.     
      */
-    public function __construct()
+    public function __construct($translator=null)
     {
-        // Define form name
+        if ($translator){
+            AbstractValidator::setDefaultTranslator($translator);
+        }
+
         parent::__construct('login-form');
      
         // Set POST method for this form

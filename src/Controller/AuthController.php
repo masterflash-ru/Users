@@ -5,11 +5,10 @@ namespace Mf\Users\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\Result;
-//use Zend\Uri\Uri;
 use Mf\Users\Form\LoginForm;
 
 /**
- * This controller is responsible for letting the user to log in and log out.
+ * контроллер выводящий форму авторизации и собственно сама авторизация при помощи сервиса
  */
 class AuthController extends AbstractActionController
 {
@@ -19,10 +18,21 @@ class AuthController extends AbstractActionController
      */
     protected $authManager;
     
+    protected $translator;
+    
+    /**
+    * config - модуля (секция users)
+    */
+    protected $config;
+    
 
-    public function __construct($authManager)
+    public function __construct($authManager,$config,$translator)
     {
         $this->authManager = $authManager;
+        $this->config=$config["users"];
+        $translator->setLocale("ru");       //ставим ru, пока нет поддержки мультиязычности
+        $this->translator=$translator;
+
     }
     
     /**
@@ -30,6 +40,12 @@ class AuthController extends AbstractActionController
      */
     public function loginAction()
     {
+        //проверим авторизован ли юзер?
+        if ($this->user()->identity()){
+            //да, переходим на страницу после авторизации, из конфига
+            $this->redirect()->toRoute($this->config["routeNameAfterLogin"]);
+        }
+        
         $prg = $this->prg();
         if ($prg instanceof Response) {
             //сюда попадаем когда форма отправлена, производим редирект
@@ -39,7 +55,7 @@ class AuthController extends AbstractActionController
         $view=new ViewModel();
         $isLoginError=false;
         //форма авторизации
-        $form = new LoginForm(); 
+        $form = new LoginForm($this->translator); 
         
         if ($prg === false){
           //вывод страницы и формы
@@ -47,28 +63,18 @@ class AuthController extends AbstractActionController
           return $view;
         }
 
-        
-
         $form->setData($prg);        
         //данные валидные?
         if($form->isValid()) {
             $data = $form->getData();
-
             $result = $this->authManager->login($data['login'], $data['password'], $data['remember_me']);
-                
+
             //авторизовался нормально?
             if ($result->getCode() == Result::SUCCESS) {
-                    
-
-                    
-                } else {
-                    $isLoginError = true;
-                }                
-            } else {
-                $isLoginError = true;
-            }           
-
-        
+                $this->redirect()->toRoute($this->config["routeNameAfterLogin"]);
+            } else {$isLoginError = true;}                
+        } else {$isLoginError = true;}           
+    
         return new ViewModel([
             'form' => $form,
             'isLoginError' => $isLoginError,
