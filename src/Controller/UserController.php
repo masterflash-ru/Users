@@ -9,6 +9,10 @@ use Mf\Users\Form\PasswordResetForm;
 use ADO\Service\RecordSet;
 use ADO\Service\Command;
 use Mf\Permissions\Entity\Users;
+use Zend\Mail;
+use Zend\Mime\Message as MimeMessage;
+use Zend\Mime\Mime;
+use Zend\Mime\Part as MimePart;
 
 /**
  * This controller is responsible for user management (adding, editing, 
@@ -196,10 +200,17 @@ class UserController extends AbstractActionController
     }
     
     /**
-     * This action displays the "Reset Password" page.
+     * Сброс пароля, путем генерации временного и записи его в спец поле таблицы, 
+     * юзеру отправляется письмо из "стат-страниц" 
      */
     public function resetPasswordAction()
     {
+        //проверим авторизован ли юзер?
+        if ($this->user()->identity()){
+            //да, переходим на страницу после авторизации, из конфига
+            $this->redirect()->toRoute($this->config["users"]["routeNameAfterLogin"]);
+        }
+        $Error=null;
         //здесь создаем капчу исходя из настроек 
         $options=$this->config["captcha"]["options"][$this->config["captcha"]["adapter"]];
         $adapter= "\\".$this->config["captcha"]["adapter"];
@@ -216,7 +227,7 @@ class UserController extends AbstractActionController
         
         if ($prg === false){
           //вывод страницы и формы
-          $view->setVariables(["form"=>$form]);
+          $view->setVariables(["form"=>$form,"Error"=>$Error]);
           return $view;
         }
         $form->setData($prg);
@@ -229,33 +240,59 @@ class UserController extends AbstractActionController
             $c->ActiveConnection=$this->connection;
             $p=$c->CreateParameter('login', adChar, adParamInput, 50, $data['login']);//генерируем объек параметров
             $c->Parameters->Append($p);//добавим в коллекцию
-            $c->CommandText="select * from users where login=:login";
+            $c->CommandText="select id from users where login=:login";
             
             $rs=new RecordSet();
             $rs->CursorType =adOpenKeyset;
             $rs->Open($c);
             
             $users= $rs->FetchEntity(Users::class);
-            if ($user!=null) {
-                    // Generate a new password for user and send an E-mail 
-                    // notification about that.
-                    $this->userManager->generatePasswordResetToken($user);
-                    
-                    // Redirect to "message" page
-                    return $this->redirect()->toRoute('users',   ['action'=>'message', 'id'=>'sent']);                 
-            } else {
-                    return $this->redirect()->toRoute('users',   ['action'=>'message', 'id'=>'invalid-email']);                 
-            }
-        }               
+            if ($users!=null) {
+                /*новый пароль и дата его годности*/
+                $data["temp_password"]=$this->userManager->generatePasswordReset();
+                $data["temp_date"] = date('Y-m-d H:i:s',time()+86400);
+                
+                /*обновить в профиле*/
+                $this->userManager->updateUserInfo ($users->getId(), $data);
+                
+                /*текст письма юзеру*/
+                $mess=$this->Statpage("RESET_PASSWORD",["pageType"=>3]);
+                
+                /*адрес сервера-сайта*/
+                $httpHost = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'localhost';
+                $mess=str_replace("{SERVER}",$httpHost,$mess);
+                $mess=str_replace("{PASSWORD}",$data["temp_password"],$mess);
 
-        $view->setVariables(["form"=>$form]);
+                $text           = new MimePart($mess);
+                $text->type     = Mime::TYPE_HTML;
+                $text->charset  = 'utf-8';
+                $text->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+                $body = new MimeMessage();
+                $body->setParts([ $text]);
+                
+                $mail = new Mail\Message();
+                $mail->setEncoding("UTF-8");
+                $mail->setBody($body);
+                $mail->setFrom($this->config["email_robot"]);
+                $mail->addTo($data['login']);
+                $mail->setSubject('Password Reset');
+                $transport = new Mail\Transport\Sendmail();
+                $transport->send($mail);
+                $view->setTemplate("mf/users/user/reset-password-ok");
+
+            } else {
+                $Error="Неверный E-mail";
+            }
+        }
+
+        $view->setVariables(["form"=>$form,"Error"=>$Error]);
         return $view;
     }
     
     /**
      * This action displays an informational message page. 
      * For example "Your password has been resetted" and so on.
-     */
+     * /
     public function messageAction() 
     {
         // Get message ID from route.

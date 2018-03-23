@@ -19,7 +19,8 @@
         "masterflash-ru/statpage": "^1.0",
         "masterflash-ru/validator_i18n": "^1.0",
         "zendframework/zend-captcha": "^2.7",
-        "zendframework/zendservice-recaptcha": "^3.0"
+        "zendframework/zendservice-recaptcha": "^3.0",
+        "zendframework/zend-mail": "^2.8"
     },
     "autoload": {
         "psr-4": {

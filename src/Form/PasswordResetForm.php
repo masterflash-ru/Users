@@ -38,9 +38,9 @@ class PasswordResetForm extends Form
         // Add "email" field
         $this->add([            
             'type'  => 'email',
-            'name' => 'email',
+            'name' => 'login',
             'options' => [
-                'label' => 'Your E-mail',
+                'label' => 'Ваш E-mail',
             ],
         ]);
         
@@ -72,7 +72,7 @@ class PasswordResetForm extends Form
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [                
-                'value' => 'Reset Password',
+                'value' => 'Получить пароль',
                 'id' => 'submit',
             ],
         ]);       
@@ -89,7 +89,7 @@ class PasswordResetForm extends Form
                 
         // Add input for "email" field
         $inputFilter->add([
-                'name'     => 'email',
+                'name'     => 'login',
                 'required' => true,
                 'filters'  => [
                     ['name' => 'StringTrim'],                    
