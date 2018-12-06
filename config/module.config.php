@@ -12,8 +12,8 @@ return [
             Service\User::class => Service\Factory\UserFactory::class,
         ],
         'aliases'=>[
-            "users"=>Service\UserManager::class,
-            "Users"=>Service\UserManager::class,
+            "user"=>Service\UserManager::class,
+            "User"=>Service\UserManager::class,
         ],
     ],
     /*помощник в контроллеры для проверки доступа и для работы с авторизованным юзером*/
