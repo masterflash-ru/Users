@@ -10,7 +10,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.1"
+        "php": "^7.1",
+        "masterflash-ru/ado": "^2.0",
+        "zendframework/zend-session": "^2.7",
+        "zendframework/zend-authentication": "^2.5",
+        "zendframework/zend-session": "^2.7",
+        "zendframework/zend-crypt": "^3.2"
     },
     "autoload": {
         "psr-4": {
