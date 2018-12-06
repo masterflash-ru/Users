@@ -1,5 +1,6 @@
 <?php
 namespace Mf\Users;
+use Zend\Authentication\AuthenticationService;
 
 return [
     'service_manager' => [
