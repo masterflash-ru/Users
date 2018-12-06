@@ -1,6 +1,6 @@
 {
     "name": "masterflash-ru/users",
-    "description": "Регистрация, кабинет посетителя сайта",
+    "description": "Система авторизации посетителя сайта и администраторов",
     "type": "Service",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -10,17 +10,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.1",
-        "masterflash-ru/permissions": "*",
-        "zendframework/zend-mvc-plugin-prg": "^1.0",
-        "zendframework/zend-form": "^2.10",
-        "zendframework/zend-cache": "^2.7",
-        "zendframework/zend-inputfilter": "^2.7",
-        "masterflash-ru/statpage": "^1.0",
-        "masterflash-ru/validator_i18n": "^1.0",
-        "zendframework/zend-captcha": "^2.7",
-        "zendframework/zendservice-recaptcha": "^3.0",
-        "zendframework/zend-mail": "^2.8"
+        "php": "^7.1"
     },
     "autoload": {
         "psr-4": {
