@@ -2,6 +2,30 @@
 namespace Mf\Users;
 
 return [
+    'service_manager' => [
+        'factories' => [//сервисы-фабрики
+            AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
+            Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
+            Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
+            Service\UserManager::class => Service\Factory\UserManagerFactory::class,
+            Service\User::class => Service\Factory\UserFactory::class,
+        ],
+        'aliases'=>[
+            "users"=>Service\UserManager::class,
+            "Users"=>Service\UserManager::class,
+        ],
+    ],
+    /*помощник в контроллеры для проверки доступа и для работы с авторизованным юзером*/
+    'controller_plugins' => [
+        'aliases' => [
+            'user' => Controller\Plugin\User::class,
+            'User' => Controller\Plugin\User::class,
+            'Zend\Mvc\Controller\Plugin\User' => Controller\Plugin\User::class,
+        ],
+        'factories' => [
+            Controller\Plugin\User::class => Controller\Plugin\UserFactory::class,
+        ],
+    ],
     "users" => [
         /*список допустимых состояний регистрированных юзеров, ключ - это код состояния*/
         'users_status' => [
