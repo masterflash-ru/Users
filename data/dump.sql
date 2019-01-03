@@ -34,7 +34,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` char(127) NOT NULL COMMENT 'логин, можно мыло',
   `status` int(11) NOT NULL COMMENT 'состояние юзера 1-нормальный',
-  `password` char(127) NOT NULL COMMENT 'текущий пароль',
+  `password` char(127) DEFAULT NULL COMMENT 'текущий пароль',
   `name` char(127) DEFAULT NULL COMMENT 'псевдоним',
   `full_name` char(255) DEFAULT NULL COMMENT 'ФИО',
   `temp_password` char(127) DEFAULT NULL COMMENT 'временный пароль для восстановления',
@@ -58,6 +58,7 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (1,'root',3,'$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW','root','root',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `users` VALUES (2,'guest',4,'$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW','guest','guest',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,6 +87,7 @@ CREATE TABLE `users2group` (
 LOCK TABLES `users2group` WRITE;
 /*!40000 ALTER TABLE `users2group` DISABLE KEYS */;
 INSERT INTO `users2group` VALUES (1,1);
+INSERT INTO `users2group` VALUES (2,2);
 /*!40000 ALTER TABLE `users2group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +136,7 @@ CREATE TABLE `users_group` (
 
 LOCK TABLES `users_group` WRITE;
 /*!40000 ALTER TABLE `users_group` DISABLE KEYS */;
-INSERT INTO `users_group` VALUES (1,'Администраторы','Администратор - полный доступ ко всем ресурсам'),(2,'Редакторы','Редакторы информации'),(6,'Регистрированные посетители','Регистрированные посетители'),(9,'Гости','Гостевой вход - группа с минимальным уровнем доступа');
+INSERT INTO `users_group` VALUES (1,'Администраторы','Администратор - полный доступ ко всем ресурсам'),(2,'Гости','Гостевой вход - группа с минимальным уровнем доступа'),(6,'Редакторы','Редакторы информации'),(7,'Регистрированные посетители','Регистрированные посетители');
 /*!40000 ALTER TABLE `users_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +170,7 @@ UNLOCK TABLES;
 
 
 
-
+delete from design_tables where interface_name like 'users%';
 
 /* Data for the `design_tables` table  (Records 1 - 62) */
 
@@ -236,16 +238,9 @@ INSERT INTO `design_tables` (`interface_name`, `table_name`, `table_type`, `col_
   ('users_edit_base', 'users', 0, 'gr', '', 2, 10, '', '', '', '1', '', '', '', '', '', '', '', 'a:2:{i:0;s:1:\"0\";i:1;s:1:\"0\";}', '', 'N;', 0, 'N;'),
   ('users_edit_base', 'users', 0, 'gr', '', 3, 0, 'select id,name from users_group order by name', '', '', '55', '', 'gr', '', '', '', '', '', 'a:3:{i:0;s:0:\"\";i:1;s:0:\"\";i:2;s:0:\"\";}', '', 'N;', 0, 'N;');
 
+delete from design_tables_text_interfase where interface_name like 'users%';
+
 INSERT INTO `design_tables_text_interfase` (`language`, `table_type`, `interface_name`, `item_name`, `text`) VALUES 
-  ('ru_RU', 1, 'admin_menu', 'caption_dop_', ''),
-  ('ru_RU', 1, 'admin_menu', 'caption_dop_1', 'Роль'),
-  ('ru_RU', 1, 'admin_menu', 'caption0', 'Меню администраторов'),
-  ('ru_RU', 1, 'admin_menu', 'caption_col_roles', ''),
-  ('ru_RU', 1, 'admin_menu', 'caption_col_language', ''),
-  ('ru_RU', 1, 'admin_menu', 'caption_col_modul', 'Модуль'),
-  ('ru_RU', 1, 'admin_menu', 'coment0', 'Страница редактирования панели администрирования сайта. Вы можете менять дерево меню по вашему усмотрению. После создания пункта меню, необходимо выбрать модуль, который будет вызван, когда администратор щелкнет по данному пункту меню. Если Выбранный модуль предоставляет автоматические параметры (список), то необходимо выбрать из предложенного списка нужный вариант. Этот выбранный пункт передается в константе param_a. Список вариантов автомараметров определяется инструкцией \"автовыборка параметров из модуля SQL иструкция\" в модуле управления модулями системы.'),
-  ('ru_RU', 1, 'admin_menu', 'caption_dop_0', 'Локаль:'),
-  ('ru_RU', 1, 'admin_menu', 'caption_col_url', 'URL'),
   ('ru_RU', 0, 'users_group', 'caption0', 'Системные группы пользователей'),
   ('ru_RU', 0, 'users_group', 'caption_col_name', 'Название'),
   ('ru_RU', 0, 'users_group', 'caption_col_id', 'ID'),
