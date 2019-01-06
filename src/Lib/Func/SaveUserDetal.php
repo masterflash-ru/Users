@@ -25,6 +25,8 @@ public function __invoke($obj,$tab_rec,$struct0,$struct2,$tab_name,$const,$row_i
             /*менять статусы и остальное можно только для не системных юзеров*/
             $UserManager->updateUserInfo($id,$tab_rec);
             $UserManager->setGroupIds($id,$parent_group);
+        } else {
+            echo "<b>Менять информацию для системных записей нельзя</b>";
         }
 
 
