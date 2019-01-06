@@ -19,7 +19,6 @@ DROP TABLE IF EXISTS `role_tree`;
 DROP TABLE IF EXISTS `role2permission`;
 DROP TABLE IF EXISTS `users2role`;
 DROP TABLE IF EXISTS `role`;
-DROP TABLE IF EXISTS `permission`;
 
 
 
@@ -282,14 +281,6 @@ INSERT INTO `design_tables_text_interfase` (`language`, `table_type`, `interface
   ('ru_RU', 0, 'users_password', 'caption0', 'Смена пароля пользователя'),
   ('ru_RU', 0, 'users_password', 'caption_col_password', 'Новый пароль'),
   ('ru_RU', 0, 'users_password', 'caption_col_1', 'Операция'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
-  ('ru_RU', 0, 'users', 'values_message_id3', 'Профиль пользователя,Изменить пароль'),
   ('ru_RU', 0, 'users', 'values_message_id3', 'Базовый профиль пользователя,Изменить пароль');
 
 
