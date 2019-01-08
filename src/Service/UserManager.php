@@ -217,18 +217,21 @@ class UserManager
     public function setGroupIds($user_id,array $group_ids)
     {
         $user_id=(int)$user_id;
+        $this->connection->BeginTrans();
         //удалим старые связи
-        $this->connection->Execute("delete from users2group where users={$user_id}");
-        $rs1=new RecordSet();
-        $rs1->CursorType = adOpenKeyset;
-        $rs1->open("SELECT * FROM users2group where users={$user_id}",$this->connection);
+        $a=0;
+        $this->connection->Execute("delete from users2group where users={$user_id}",$a,adExecuteNoCreateRecordSet);
+        $rs11=new RecordSet();
+        $rs11->CursorType = adOpenKeyset;
+        $rs11->open("SELECT * FROM users2group where users={$user_id}",$this->connection);
         
         foreach ($group_ids as $gr){
-            $rs1->AddNew();
-            $rs1->Fields->Item['users']->Value=$user_id;
-            $rs1->Fields->Item['users_group']->Value=$gr;
-            $rs1->Update();
+            $rs11->AddNew();
+            $rs11->Fields->Item['users']->Value=$user_id;
+            $rs11->Fields->Item['users_group']->Value=(int)$gr;
+            $rs11->Update();
         }
+        $this->connection->CommitTrans();
         $this->cache->removeItem("group_users_{$user_id}");
     }
     

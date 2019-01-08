@@ -18,7 +18,7 @@ public function __invoke ($obj,$tab_rec,$struct0,$struct2,$tab_name,$const,$row_
 
 //глобальная выборка для всей таблицы
 if ($action==-1) {
-
+    //однодневные, отелей нет,
     $arr= simba::queryAllRecords("select ue.*, u.login,u.date_registration, u.date_last_login,u.status 
         from users as u, users_ext as ue
             where u.id=ue.id and
