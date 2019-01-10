@@ -16,6 +16,7 @@ class AuthAdapterFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $connection=$container->get('DefaultSystemDb');
-        return new AuthAdapter($connection);
+        $config=$container->get('config');
+        return new AuthAdapter($connection,$config);
     }
 }

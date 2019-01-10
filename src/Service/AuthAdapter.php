@@ -24,6 +24,7 @@ class AuthAdapter implements AdapterInterface
 
     private $login;
     private $password;
+    protected $config;
 
 /**
 *соединение с базой
@@ -31,9 +32,10 @@ class AuthAdapter implements AdapterInterface
     private $connection;
 
 
-    public function __construct($connection)
+    public function __construct($connection,$config)
     {
         $this->connection = $connection;
+        $this->config=$config;
     }
 
     /**
@@ -57,12 +59,13 @@ class AuthAdapter implements AdapterInterface
      */
     public function authenticate()
     {
+        $users_status_login=" status in(".implode(",",$this->config["users"]["users_status_login"]).")";
       $c=new Command();
       $c->NamedParameters=true;
       $c->ActiveConnection=$this->connection;
       $p=$c->CreateParameter('login', adChar, adParamInput, 50, $this->login);//генерируем объек параметров
       $c->Parameters->Append($p);//добавим в коллекцию
-      $c->CommandText="select * from users where login=:login";
+      $c->CommandText="select * from users where login=:login and {$users_status_login}";
 
       $rs=new RecordSet();
       $rs->CursorType =adOpenKeyset;

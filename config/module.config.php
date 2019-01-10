@@ -21,7 +21,6 @@ return [
         'aliases' => [
             'user' => Controller\Plugin\User::class,
             'User' => Controller\Plugin\User::class,
-            'Zend\Mvc\Controller\Plugin\User' => Controller\Plugin\User::class,
         ],
         'factories' => [
             Controller\Plugin\User::class => Controller\Plugin\UserFactory::class,
@@ -40,8 +39,8 @@ return [
         "users_status_start_registration" => 1,
         /*новый код состояния после подтверждения регистрации*/
         "users_status_after_confirm" => 3,
-        /*нормальное состояние посетителя, когда он может делать все*/
-        "users_status_normal" => 3,
+        /*статусы когда юзер может в принципе авторизоваться*/
+        "users_status_login" => [3],
     ],
   //обратный адрес
   "email_robot"=>"robot@".trim($_SERVER["SERVER_NAME"],"w."),
