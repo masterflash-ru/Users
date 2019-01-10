@@ -35,7 +35,7 @@ class User extends AbstractPlugin
         return $this;
     }
     
-    /*повторяет метод identity плагина zend-mvc-plugin-identity
+    /*повторяет метод identity сервиса Users
     * если юзер авторизован, возвращается его ID, если нет то ничего
     */
     public function identity()
@@ -43,6 +43,12 @@ class User extends AbstractPlugin
         return $this->User->identity();
     }
 
-
+    /*
+    *возвращает ID авторизованного юзера
+    */
+    public function getUserId()
+    {
+        return $this->User->getUserId();
+    }
 
 }
