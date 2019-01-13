@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` char(127) NOT NULL COMMENT 'логин, можно мыло',
-  `status` int(11) NOT NULL COMMENT 'состояние юзера 1-нормальный',
+  `status` int(11) NOT NULL COMMENT 'состояние юзера',
   `password` char(127) DEFAULT NULL COMMENT 'текущий пароль',
   `name` char(127) DEFAULT NULL COMMENT 'псевдоним',
   `full_name` char(255) DEFAULT NULL COMMENT 'ФИО',
