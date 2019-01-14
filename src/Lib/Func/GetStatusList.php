@@ -16,7 +16,8 @@ foreach ($obj->config["users"]["users_status"] as $k=>$status){
     $obj->dop_sql['id'][]=$k;
 
 }
-
+$obj->pole_dop[2]=$obj->config["users"]["users_status_login"][0];
+$obj->pole_dop2=$obj->config["users"]["users_status_login"][0];
 return $infa;
 
 }
