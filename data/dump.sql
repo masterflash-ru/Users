@@ -101,7 +101,7 @@ CREATE TABLE `users_ext` (
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `users_ext_fk` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='расширение юзеров';
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='расширение юзеров';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
