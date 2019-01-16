@@ -51,6 +51,7 @@ class UserManager
         $result = false;
         $users_tables_structure= $this->cache->getItem($key, $result);
         if (!$result) {
+            $users_tables_structure=[];
             //промах кеша, создаем
             $rs=new RecordSet();
             $rs->Open("show columns from users",$this->connection);
