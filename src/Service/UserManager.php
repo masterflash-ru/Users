@@ -49,30 +49,30 @@ class UserManager
         $key="users_tables_structure";
         //пытаемся считать из кеша
         $result = false;
-        $users_tables_structure= $this->cache->getItem($key, $result);
-        if (!$result) {
-            $users_tables_structure=[];
+        $users_tables= $this->cache->getItem($key, $result);
+        if (!$result ) {
+            $users_tables=[];
             //промах кеша, создаем
             $rs=new RecordSet();
             $rs->Open("show columns from users",$this->connection);
             while (!$rs->EOF){
-                $users_tables_structure[0][]=$rs->Fields->Item["Field"]->Value;
+                $users_tables[0][]=$rs->Fields->Item["Field"]->Value;
                 $rs->MoveNext();
             }
             $rs->Close();
             $rs=new RecordSet();
             $rs->Open("show columns from users_ext",$this->connection);
             while (!$rs->EOF){
-                $users_tables_structure[1][]=$rs->Fields->Item["Field"]->Value;
+                $users_tables[1][]=$rs->Fields->Item["Field"]->Value;
                 $rs->MoveNext();
             }
             $rs->Close();
 
             //сохраним в кеш
-            $this->cache->setItem($key, $users_tables_structure);
+            $this->cache->setItem($key, $users_tables);
         }
-        $this->db_field_base=$users_tables_structure[0];
-        $this->db_field_ext=$users_tables_structure[1];
+        $this->db_field_base=$users_tables[0];
+        $this->db_field_ext=$users_tables[1];
 
     }
     
