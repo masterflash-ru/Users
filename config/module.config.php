@@ -4,7 +4,8 @@ use Zend\Authentication\AuthenticationService;
 
 return [
     'service_manager' => [
-        'factories' => [//сервисы-фабрики
+        'factories' => [
+            /*инициализация Zend\Authentication\AuthenticationService - в фабрике передается адаптер аутентификации и хранилище*/
             AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
@@ -29,9 +30,6 @@ return [
     "users" => [
         /*список допустимых состояний регистрированных юзеров, ключ - это код состояния*/
         'users_status' => [
-            /*0=>"Неопределенное",
-            1=>"Неподтвержденная регистрация",
-            2=>"Ожидает подтверждения администрации",*/
             3=>"Нормальное состояние",
             4=>"Заблокирован",
         ],

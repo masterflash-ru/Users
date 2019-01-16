@@ -1,7 +1,7 @@
 <?php
 /*
-Объект который собственно производит авторизацию, 
-возвращает экземпляр  Zend\Authentication\Result с результатом авторизации
+* Объект который собственно производит авторизацию, 
+* возвращает экземпляр  Zend\Authentication\Result с результатом аутентификации
 */
 namespace Mf\Users\Service;
 
@@ -10,6 +10,7 @@ use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
 use Zend\Crypt\Password\Bcrypt;
 use Mf\Users\Entity\Users;
+use Zend\Authentication\Adapter\AbstractAdapter;
 
 use ADO\Service\RecordSet;
 use ADO\Service\Command;
@@ -19,11 +20,9 @@ use ADO\Service\Command;
 /**
 адаптер аутентификации
  */
-class AuthAdapter implements AdapterInterface
+class AuthAdapter extends AbstractAdapter
 {
 
-    private $login;
-    private $password;
     protected $config;
 
 /**
@@ -38,21 +37,6 @@ class AuthAdapter implements AdapterInterface
         $this->config=$config;
     }
 
-    /**
-     * Sets user Login
-     */
-    public function setLogin($login) 
-    {
-        $this->login = $login;
-    }
-
-    /**
-     * Sets password.
-     */
-    public function setPassword($password) 
-    {
-        $this->password = (string)$password;
-    }
 
     /**
      * Performs an authentication attempt.
@@ -60,12 +44,12 @@ class AuthAdapter implements AdapterInterface
     public function authenticate()
     {
         $users_status_login=" status in(".implode(",",$this->config["users"]["users_status_login"]).")";
-      $c=new Command();
-      $c->NamedParameters=true;
-      $c->ActiveConnection=$this->connection;
-      $p=$c->CreateParameter('login', adChar, adParamInput, 50, $this->login);//генерируем объек параметров
-      $c->Parameters->Append($p);//добавим в коллекцию
-      $c->CommandText="select * from users where login=:login and {$users_status_login}";
+        $c=new Command();
+        $c->NamedParameters=true;
+        $c->ActiveConnection=$this->connection;
+        $p=$c->CreateParameter('login', adChar, adParamInput, 50, $this->identity);//генерируем объек параметров
+        $c->Parameters->Append($p);//добавим в коллекцию
+        $c->CommandText="select * from users where login=:login and {$users_status_login}";
 
       $rs=new RecordSet();
       $rs->CursorType =adOpenKeyset;
@@ -83,12 +67,12 @@ class AuthAdapter implements AdapterInterface
 
         $bcrypt = new Bcrypt();
 
-        if ($bcrypt->verify($this->password, $users->getPassword())) {
+        if ($bcrypt->verify($this->credential, $users->getPassword())) {
             //успешная авторизация, возвращаем успех и ID записи из таблицы админов
             return new Result(
                     Result::SUCCESS, 
                     $users->getId(), 
-                    ['Авторизация успешна']);
+                    ['Аутентификация успешна']);
         }
         
         /*проверяем по временному паролю, для варианта восстановления пароля*/
@@ -96,12 +80,12 @@ class AuthAdapter implements AdapterInterface
         /*смотрим дату, годен ли временный пароль*/
         if ($users->getTemp_Date()){
             /*собственно пароль*/
-            if ($bcrypt->verify($this->password, $users->getTemp_Password()) && strtotime($users->getTemp_Date())-time() >0) {
+            if ($bcrypt->verify($this->credential, $users->getTemp_Password()) && strtotime($users->getTemp_Date())-time() >0) {
                 //успешная авторизация, возвращаем успех и ID записи из таблицы админов
                 return new Result(
                         Result::SUCCESS, 
                         $users->getId(), 
-                        ['Авторизация успешна по временному паролю']);
+                        ['Аутентификация успешна по временному паролю']);
             }
         }
 

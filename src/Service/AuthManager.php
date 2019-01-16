@@ -46,7 +46,11 @@ class AuthManager
      */
     public function __construct($authService, $sessionManager) 
     {
-        $this->authService = $authService;
+        /*это экземпляр Zend\Authentication\AuthenticationService
+        * в фабрике передается в конструктор адаптер (наш) и хранилище (сессия)
+        * получаем полностью работоспособный сервис, в сессию сохраняется идентификатор юзера
+        */
+        $this->authService = $authService; 
         $this->sessionManager = $sessionManager;
     }
     
@@ -59,8 +63,8 @@ class AuthManager
 
         // авторизация login/password через адаптер
         $authAdapter = $this->authService->getAdapter();
-        $authAdapter->setLogin($login);
-        $authAdapter->setPassword($password);
+        $authAdapter->setIdentity($login);
+        $authAdapter->setCredential($password);
         $result = $this->authService->authenticate();
 
         if ($result->getCode()==Result::SUCCESS && $rememberMe) {
@@ -76,7 +80,7 @@ class AuthManager
     public function logout()
     {
         if ($this->authService->getIdentity()==null) {
-            throw new Exception('Пользователь не авторизован');
+            throw new Exception('Пользователь не аутентифицировался');
         }
 
       $this->authService->clearIdentity();
