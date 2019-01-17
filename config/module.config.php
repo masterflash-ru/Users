@@ -27,6 +27,16 @@ return [
             Controller\Plugin\User::class => Controller\Plugin\UserFactory::class,
         ],
     ],
+    'view_helpers' => [
+        'factories' => [
+            View\Helper\User::class => View\Helper\UserFactory::class,
+        ],
+        'aliases' => [
+            'User' => View\Helper\User::class,
+            'user' => View\Helper\User::class,
+        ],
+    ],
+
     "users" => [
         /*список допустимых состояний регистрированных юзеров, ключ - это код состояния*/
         'users_status' => [

@@ -2,11 +2,9 @@
 namespace Mf\Users\Entity;
 
 
-class Users 
+class Users
 {
 
-	const STATUS_ACTIVE       = 1; //нормальное состояние
-    const STATUS_NONACTIVE    = 0; //не активный.
     protected $value=[];
 
     
@@ -31,4 +29,5 @@ class Users
     {
         return $this->value;
     }
+    
 }
