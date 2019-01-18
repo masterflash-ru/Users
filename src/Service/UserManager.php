@@ -42,14 +42,20 @@ class UserManager
     * время жизни временного пароля в сек.
     */
     protected $passwordLifetime=86400;
+    
+    /*
+    * конфиг, секция users
+    */
+    protected $config;
 
     /**
      * Constructs the service.
      */
-    public function __construct($connection,$cache) 
+    public function __construct($connection,$cache,$config) 
     {
         $this->connection = $connection;
         $this->cache=$cache;
+        $this->config=$config["users"];
         
         $key="users_tables_structure";
         //пытаемся считать из кеша
@@ -85,7 +91,7 @@ class UserManager
      * добавить нового юзера
      *на входе массив ключи которого это имена колонок
      *в какую таблицу писать работает автоматически
-     *возвращается экземпляр Mf\Permissions\Entity\Users с заполнеными данными
+     *возвращается экземпляр Mf\Users\Entity\Users с заполнеными данными
      */
     public function addUser($data) 
     {
@@ -95,7 +101,15 @@ class UserManager
         if($this->isUserExists($data['login'])) {
             throw new Exception\AlreadyExistException("Пользователь с логином " . $data['login'] . " уже зарегистрирован");
         }
-        return $this->_updateUserInfo(0, $data,true);
+        if (empty($data["status"])){/*если не указали группу, берем из конфига*/
+            $data["status"]=(int)$this->config["users_status_start_registration"];
+        }
+        /*дата регистрации*/
+         $data["date_registration"]=date("Y-m-d H:i:s");
+        $rez=$this->_updateUserInfo(0, $data,true);
+        /*присвоим группу*/
+        $this->setGroupIds($rez->getId(),$this->config["users_groups_start_registration"]);
+        return $rez;
     }
     
     /*
@@ -290,7 +304,7 @@ class UserManager
             $rs->AddNew();
         }
 
-        $this->connection->BeginTrans();
+        
         
         if (isset($data['password'])){
             // шифруем пароль
@@ -309,6 +323,7 @@ class UserManager
                 $rs->Fields->Item[$field]->Value=$data[$field];
             }
         }
+        $this->connection->BeginTrans();
         //запишем в базовую таблицу информацию и получим ID нового юзера
         $rs->Update();
         $this->connection->CommitTrans();
@@ -322,7 +337,6 @@ class UserManager
             $rs_ext->AddNew();
             $userid=(int)$rs->Fields->Item["id"]->Value;
             $data["id"]=$userid;
-
         }
 
         //пробежим по расширеной таблице

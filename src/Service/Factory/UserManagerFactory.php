@@ -15,6 +15,7 @@ class UserManagerFactory
     {        
         $connection=$container->get('DefaultSystemDb');
         $cache=$container->get('DefaultSystemCache');
-        return new $requestedName($connection,$cache);
+        $config = $container->get('Config');
+        return new $requestedName($connection,$cache,$config);
     }
 }
