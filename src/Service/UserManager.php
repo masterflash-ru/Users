@@ -5,7 +5,7 @@ use Mf\Users\Entity\Users;
 
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
-use Exception;
+use Mf\Users\Exception;
 use ADO\Service\RecordSet;
 use ADO\Service\Command;
 
@@ -37,6 +37,11 @@ class UserManager
     *первичный ключ id считается железно
     */
     protected $db_field_ext=[];
+    
+    /*
+    * время жизни временного пароля в сек.
+    */
+    protected $passwordLifetime=86400;
 
     /**
      * Constructs the service.
@@ -85,10 +90,10 @@ class UserManager
     public function addUser($data) 
     {
         if(empty($data['login'])) {
-            throw new Exception("Нет обязательного параметра login, добавить нового юзера нельзя");
+            throw new Exception\MissingParameterException("Нет обязательного параметра login, добавить нового юзера нельзя");
         }
         if($this->isUserExists($data['login'])) {
-            throw new Exception("Пользователь с логином " . $data['login'] . " уже зарегистрирован");
+            throw new Exception\AlreadyExistException("Пользователь с логином " . $data['login'] . " уже зарегистрирован");
         }
         return $this->_updateUserInfo(0, $data,true);
     }
@@ -111,7 +116,7 @@ class UserManager
             $this->connection->CommitTrans();
 
             if ($rs->EOF){
-                throw new \Exception("Юзера с id={$id} не существует");
+                throw new Exception\NotFoundException("Юзера с id={$id} не существует");
             }
             $user=$rs->FetchEntity(Users::class);
             $rs->Close();
@@ -150,7 +155,7 @@ class UserManager
         $rs=new RecordSet();
         $rs->Open($c);
         if ($rs->EOF){
-            throw new \Exception("Юзера с confirm_hash={$confirm} не существует");
+            throw new Exception\NotFoundException("Юзера с confirm_hash={$confirm} не существует");
         }
         return $this->GetUserIdInfo((int)$rs->Fields->Item["id"]->Value);
     }
@@ -237,69 +242,32 @@ class UserManager
     }
     
     /**
-     * генерация уникальной случайной строки для генерации адреса 
-     * просто возвращает уникальную строку - это и есть новый пароль
-     * 
+     * генерация уникальной случайной строки для генерации адреса и пишет во временный пароль
+     * там же пишется время жизни этого пароля
+     * возвращает строку временного сгеренированног пароля
      */
-    public function generatePasswordReset($passwordLen=10)
+    public function PasswordReset(string $login,$passwordLen=10)
     {
-        //генерируем временный пароль и дату его годности
-        return Rand::getString($passwordLen, '0123456789!@#%$abcdefghijklmnopqrstuvwxyz', true);
+        $c=new Command();
+        $c->NamedParameters=true;
+        $c->ActiveConnection=$this->connection;
+        $p=$c->CreateParameter('login', adChar, adParamInput, 127, $login);//генерируем объек параметров
+        $c->Parameters->Append($p);//добавим в коллекцию
+        $c->CommandText="select id,temp_password,temp_date,login from users where login=:login";
+
+        $rs=new RecordSet();
+        $rs->CursorType =adOpenKeyset;
+        $rs->Open($c);
+        if($rs->EOF) {
+            throw new Exception\NotFoundException("Пользователя с логином " . $login . " нет");
+        }
+        $pass=Rand::getString($passwordLen, '0123456789!@#%$abcdefghijklmnopqrstuvwxyz', true);
+        $rs->Fields->Item["temp_password"]->Value =$pass;
+        $rs->Fields->Item["temp_date"]->Value  = date('Y-m-d H:i:s',time()+$this->passwordLifetime);
+        $rs->Update();
+        return $pass;
     }
     
-    /**
-     * Checks whether the given password reset token is a valid one.
-     * /
-    public function validatePasswordResetToken($passwordResetToken)
-    {
-        $user = $this->entityManager->getRepository(User::class)
-                ->findOneByPasswordResetToken($passwordResetToken);
-        
-        if($user==null) {
-            return false;
-        }
-        
-        $tokenCreationDate = $user->getPasswordResetTokenCreationDate();
-        $tokenCreationDate = strtotime($tokenCreationDate);
-        
-        $currentDate = strtotime('now');
-        
-        if ($currentDate - $tokenCreationDate > 24*60*60) {
-            return false; // expired
-        }
-        
-        return true;
-    }
-    
-    /**
-     * This method sets new password by password reset token.
-     * /
-    public function setNewPasswordByToken($passwordResetToken, $newPassword)
-    {
-        if (!$this->validatePasswordResetToken($passwordResetToken)) {
-           return false; 
-        }
-        
-        $user = $this->entityManager->getRepository(User::class)
-                ->findOneByPasswordResetToken($passwordResetToken);
-        
-        if ($user==null) {
-            return false;
-        }
-                
-        // Set new password for user        
-        $bcrypt = new Bcrypt();
-        $passwordHash = $bcrypt->create($newPassword);        
-        $user->setPassword($passwordHash);
-                
-        // Remove password reset token
-        $user->setPasswordResetToken(null);
-        $user->setPasswordResetTokenCreationDate(null);
-        
-        $this->entityManager->flush();
-        
-        return true;
-    }
     
     /**
      * Обновление инфы/создание в профиле юзера, автоматом пишется в основную или дополнительную таблицы.
@@ -316,7 +284,7 @@ class UserManager
         $rs->CursorType =adOpenKeyset;
         $rs->Open("select * from users where id=$userid",$this->connection);
         if($rs->EOF && !$flag_create_new) {
-            throw new \Exception("Юзера с id={$userid} не найдено");
+            throw new \Exception\NotFoundException("Юзера с id={$userid} не найдено");
         }
         if($rs->EOF && $flag_create_new) {
             $rs->AddNew();

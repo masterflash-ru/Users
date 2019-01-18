@@ -9,7 +9,7 @@
 namespace Mf\Users\Service;
 
 use Zend\Authentication\Result;
-use Exception;
+use Mf\Users\Exception;
 
 
 
@@ -80,7 +80,7 @@ class AuthManager
     public function logout()
     {
         if ($this->authService->getIdentity()==null) {
-            throw new Exception('Пользователь не аутентифицировался');
+            throw new NotLoginException('Пользователь не аутентифицировался');
         }
 
       $this->authService->clearIdentity();

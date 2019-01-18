@@ -8,11 +8,7 @@ namespace Mf\Users\Controller\Plugin;
 
 
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
-use Exception;
 
-/**
- * 
- */
 class User extends AbstractPlugin
 {
     /**
