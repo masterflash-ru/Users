@@ -106,6 +106,7 @@ class UserManager
         }
         /*дата регистрации*/
          $data["date_registration"]=date("Y-m-d H:i:s");
+        $data["confirm_hash"]=md5(Rand::getString(20, '0123456789abcdefghijklmnopqrstuvwxyz', true));
         $rez=$this->_updateUserInfo(0, $data,true);
         /*присвоим группу*/
         $this->setGroupIds($rez->getId(),$this->config["users_groups_start_registration"]);
@@ -298,7 +299,7 @@ class UserManager
         $rs->CursorType =adOpenKeyset;
         $rs->Open("select * from users where id=$userid",$this->connection);
         if($rs->EOF && !$flag_create_new) {
-            throw new \Exception\NotFoundException("Юзера с id={$userid} не найдено");
+            throw new Exception\NotFoundException("Юзера с id={$userid} не найдено");
         }
         if($rs->EOF && $flag_create_new) {
             $rs->AddNew();
