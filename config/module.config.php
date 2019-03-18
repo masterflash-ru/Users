@@ -57,5 +57,21 @@ return [
     "email_robot"=>"robot@".trim($_SERVER["SERVER_NAME"],"w."),
     /*Канонический адрес сайта*/
     "ServerDefaultUri"=>"http://".trim($_SERVER["SERVER_NAME"],"w."),
+    
+    /*плагины для сетки JqGrid*/
+    "JqGridPlugin"=>[
+        'factories' => [
+            Service\Admin\JqGrid\Plugin\SaveGroupTree::class=>Service\Admin\JqGrid\Plugin\FactorySaveGroupTree::class,
+        ],
+        'aliases' =>[
+            "SaveGroupTree" => Service\Admin\JqGrid\Plugin\SaveGroupTree::class,
+            "savegrouptree" => Service\Admin\JqGrid\Plugin\SaveGroupTree::class,
+        ],
+    ],
+    /*описатели интерфейсов*/
+    "interface"=>[
+        "systemgroups"=>__DIR__."/admin.systemgroups.php",
+        "usergroups"=>__DIR__."/admin.usergroups.php",
+    ]
 
 ];
