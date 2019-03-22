@@ -62,10 +62,12 @@ return [
     "JqGridPlugin"=>[
         'factories' => [
             Service\Admin\JqGrid\Plugin\SaveGroupTree::class=>Service\Admin\JqGrid\Plugin\FactorySaveGroupTree::class,
+            Service\Admin\JqGrid\Plugin\ReadGroup::class=>Service\Admin\JqGrid\Plugin\FactoryReadGroup::class,
         ],
         'aliases' =>[
             "SaveGroupTree" => Service\Admin\JqGrid\Plugin\SaveGroupTree::class,
             "savegrouptree" => Service\Admin\JqGrid\Plugin\SaveGroupTree::class,
+            "ReadGroup" => Service\Admin\JqGrid\Plugin\ReadGroup::class,
         ],
     ],
     /*описатели интерфейсов*/

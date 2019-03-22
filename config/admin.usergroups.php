@@ -74,9 +74,11 @@ return [
                                                            ],
                                                            "plugins"=>[
                                                                "colModel"=>[//плагин срабатывает при генерации сетки, вызывается в помощнике сетки
-                                                                   "selectfromdb"=>[
-                                                                       "sql"=>"select id,name from users_group order by name",
-                                                                       "emptyFirstItem"=>true
+                                                                   "ReadGroup"=>[],
+                                                               ],
+                                                               "ajaxRead" =>[//асинхронное чтение, пока актуально для выпадающего списка 
+                                                                   "ReadGroup"=>[
+                                                                       "cacheUrlData"=>false,
                                                                    ],
                                                                ],
                                                            ],
