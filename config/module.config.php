@@ -72,6 +72,7 @@ return [
     "interface"=>[
         "systemgroups"=>__DIR__."/admin.systemgroups.php",
         "usergroups"=>__DIR__."/admin.usergroups.php",
+        "users"=>__DIR__."/admin.users.php",
     ]
 
 ];
