@@ -115,10 +115,11 @@ return [
                                                  "items"=>[
                                                     "button1"=> [
                                                         "label"=>"Базовый профиль",
-                                                        "interface"=>"/adm/universal-interface/usergroups",
-                                                        "icon"=> "ui-icon-contact ui-priority-primary",
+                                                        "interface"=>"/adm/universal-interface/users_profile",
+                                                        "icon"=> "ui-icon-contact",
                                                         "dialog"=>[
                                                             "title"=>"Базовый профиль",
+                                                            //"width"=>500
                                                         ],
                                                      ],
                                                     "button2"=> [
