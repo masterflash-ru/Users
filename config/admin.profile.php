@@ -30,8 +30,17 @@ return [
                         RowModelHelper::text("login"),
                         RowModelHelper::text("name"),
                         RowModelHelper::text("full_name"),
-                        RowModelHelper::select("status"),
-                        RowModelHelper::submit("submit",['attributes'=>['value' => 'Записать']]),
+                        RowModelHelper::select("status",[
+                            "plugins"=>[
+                                "rowModel"=>[//плагин срабатывает при генерации формы до ее вывода
+                                    "GetUserStatus"=>[],
+                                ],
+                            ],
+                        ]),
+                        RowModelHelper::datetime("date_registration"),
+                        RowModelHelper::submit("submit",[
+                            'attributes'=>['value' => 'Записать'],
+                        ]),
                     ],
 
                 ],

@@ -68,6 +68,15 @@ return [
             "savegrouptree" => Service\Admin\JqGrid\Plugin\SaveGroupTree::class,
         ],
     ],
+    /*плагины для Zform*/
+    "ZformPlugin"=>[
+        'factories' => [
+            Service\Admin\Zform\Plugin\GetUserStatus::class=>Service\Admin\Zform\Plugin\FactoryGetUserStatus::class,
+        ],
+        'aliases' =>[
+            "GetUserStatus" => Service\Admin\Zform\Plugin\GetUserStatus::class,
+        ],
+    ],
     /*описатели интерфейсов*/
     "interface"=>[
         "systemgroups"=>__DIR__."/admin.systemgroups.php",
