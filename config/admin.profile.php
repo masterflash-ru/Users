@@ -43,6 +43,24 @@ return [
                             ],
                         ]),
                         RowModelHelper::datetime("date_registration",['options'=>["label"=>"Дата регистрации"]]),
+                        RowModelHelper::select("gr",[
+                            "plugins"=>[
+                                "rowModel"=>[//плагин срабатывает при генерации формы до ее вывода
+                                    "selectfromdb"=>[
+                                        "sql"=>"select id,name from users_group order by name",
+                                        "emptyFirstItem"=>false
+                                    ],
+                                ],
+                            ],
+                            'attributes' => [
+                                "multiple"=>true,
+                                "size"=>7,
+                            ],
+                            'options'=>[
+                                "label"=>"Член групп",
+                                
+                            ],
+                        ]),
                         RowModelHelper::submit("submit",[
                             'attributes'=>['value' => 'Записать'],
                         ]),
