@@ -29,17 +29,20 @@ return [
                 "caption" => "Базовый профиль",
                 "rowModel" => [
                     'elements' => [
-                        RowModelHelper::text("login"),
-                        RowModelHelper::text("name"),
-                        RowModelHelper::text("full_name"),
+                        RowModelHelper::text("login",['options'=>["label"=>"Логин"]]),
+                        RowModelHelper::text("name",['options'=>["label"=>"Имя"]]),
+                        RowModelHelper::text("full_name",['options'=>["label"=>"Полное имя"]]),
                         RowModelHelper::select("status",[
                             "plugins"=>[
                                 "rowModel"=>[//плагин срабатывает при генерации формы до ее вывода
                                     "GetUserStatus"=>[],
                                 ],
                             ],
+                            'options'=>[
+                                "label"=>"Статус"
+                            ],
                         ]),
-                        RowModelHelper::datetime("date_registration"),
+                        RowModelHelper::datetime("date_registration",['options'=>["label"=>"Дата регистрации"]]),
                         RowModelHelper::submit("submit",[
                             'attributes'=>['value' => 'Записать'],
                         ]),

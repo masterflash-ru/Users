@@ -24,6 +24,7 @@ class GetUserStatus extends AbstractPlugin
     public function rowModel(array $rowModel)
     {
         $config=$this->config['users_status'];
+        unset($config[-1]);
         $rez=[];
         if (is_array($config)){
             foreach ($config as $s=>$v){
