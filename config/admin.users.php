@@ -21,17 +21,17 @@ return [
                 "db"=>[//плагин выборки из базы
                     "sql"=>"select users.*,
                         (select group_concat(ug.users_group) from users2group ug where ug.users=users.id) as user_groups
-                                from users",
+                                from users where status >= 0",
                 ],
             ],
-             "edit1"=>[
-                 "SaveGroupTree"=>[]
+             "edit"=>[
+                 "SaveUser"=>[]
              ],
-             "add1"=>[
-                 "SaveGroupTree"=>[]
+             "add"=>[
+                 "SaveUser"=>[]
              ],
-             "del1"=>[
-                 "SaveGroupTree"=>[]
+             "del"=>[
+                 "SaveUser"=>[]
              ],
 
             /*внешний вид*/
@@ -50,7 +50,8 @@ return [
 
                 ],
                 "colModel" => [
-                    ColModelHelper::text("id",["label"=>"ID","width"=>80,"editable"=>false]),
+                    ColModelHelper::cellActions(),
+                    ColModelHelper::text("id",["label"=>"ID","width"=>40,"editable"=>false]),
                     ColModelHelper::text("login",
                                          [
                                              "label"=>"Логин",
@@ -101,8 +102,16 @@ return [
                                                                "colModel"=>[//плагин срабатывает при генерации сетки, вызывается в помощнике сетки
                                                                    "selectfromdb"=>[
                                                                        "sql"=>"select id,name from users_group order by name",
-                                                                       "emptyFirstItem"=>true
+                                                                       "emptyFirstItem"=>false
                                                                    ],
+                                                               ],
+                                                           ],
+                                                          ]),
+                    ColModelHelper::select("status",["label"=>"Статус",
+                                                           "width"=>150,
+                                                           "plugins"=>[
+                                                               "colModel"=>[//плагин срабатывает при генерации сетки, вызывается в помощнике сетки
+                                                                   "UserStatus"=>[],
                                                                ],
                                                            ],
                                                           ]),
@@ -135,7 +144,7 @@ return [
                                              ]
                                          ]),
 
-                    ColModelHelper::cellActions(),
+                    
                 ],
             ],
         ],

@@ -43,6 +43,7 @@ return [
             0=>"Состояние не определено",
             3=>"Нормальное состояние",
             4=>"Заблокирован",
+            -1=>"Удален"
         ],
         /*код состояния при начальной регистрации нового посетителя*/
         "users_status_start_registration" => 1,
@@ -62,10 +63,14 @@ return [
     "JqGridPlugin"=>[
         'factories' => [
             Service\Admin\JqGrid\Plugin\SaveGroupTree::class=>Service\Admin\JqGrid\Plugin\FactorySaveGroupTree::class,
+            Service\Admin\JqGrid\Plugin\SaveUser::class=>Service\Admin\JqGrid\Plugin\FactorySaveUser::class,
+            Service\Admin\JqGrid\Plugin\UserStatus::class=>Service\Admin\JqGrid\Plugin\FactoryUserStatus::class,
         ],
         'aliases' =>[
             "SaveGroupTree" => Service\Admin\JqGrid\Plugin\SaveGroupTree::class,
             "savegrouptree" => Service\Admin\JqGrid\Plugin\SaveGroupTree::class,
+            "SaveUser" => Service\Admin\JqGrid\Plugin\SaveUser::class,
+            "UserStatus" => Service\Admin\JqGrid\Plugin\UserStatus::class,
         ],
     ],
     /*плагины для Zform*/
