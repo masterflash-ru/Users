@@ -8,7 +8,7 @@ use Admin\Service\Zform\RowModelHelper;
 return [
 
         "type" => "izform",
-        "description"=>"Базовый профиль",
+        //"description"=>"",
         "options" => [
             "container" => "profile",
             "podval" =>"",
@@ -18,7 +18,9 @@ return [
             /*все что касается чтения в таблицу*/
             "read"=>[
                 "db"=>[//плагин выборки из базы
-                    "sql"=>"select users.*, (select group_concat(users_group) from users2group where users=users.id) as gr from users where id=".(int)$_GET["id"],  
+                    "sql"=>"select users.*, 
+                        (select group_concat(users_group) from users2group where users=users.id) as gr 
+                            from users where id=:id",  
                 ],
             ],
 
@@ -41,6 +43,7 @@ return [
                         RowModelHelper::submit("submit",[
                             'attributes'=>['value' => 'Записать'],
                         ]),
+                        RowModelHelper::hidden("id"),
                     ],
 
                 ],
