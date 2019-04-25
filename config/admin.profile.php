@@ -43,7 +43,7 @@ return [
                             ],
                         ]),
                         RowModelHelper::datetime("date_registration",['options'=>["label"=>"Дата регистрации"]]),
-                        RowModelHelper::select("gr",[
+                        RowModelHelper::multicheckbox("gr",[
                             "plugins"=>[
                                 "rowModel"=>[//плагин срабатывает при генерации формы до ее вывода
                                     "selectfromdb"=>[
