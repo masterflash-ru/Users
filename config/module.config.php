@@ -77,9 +77,11 @@ return [
     "ZformPlugin"=>[
         'factories' => [
             Service\Admin\Zform\Plugin\GetUserStatus::class=>Service\Admin\Zform\Plugin\FactoryGetUserStatus::class,
+            Service\Admin\Zform\Plugin\EditUserProfile::class=>Service\Admin\Zform\Plugin\FactoryEditUserProfile::class,
         ],
         'aliases' =>[
             "GetUserStatus" => Service\Admin\Zform\Plugin\GetUserStatus::class,
+            "EditUserProfile" => Service\Admin\Zform\Plugin\EditUserProfile::class,
         ],
     ],
     /*описатели интерфейсов*/

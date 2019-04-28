@@ -23,6 +23,9 @@ return [
                             from users where id=:id",  
                 ],
             ],
+            "edit"=>[
+                "EditUserProfile"=>[],
+            ],
 
             /*внешний вид*/
             "layout"=>[
@@ -51,11 +54,14 @@ return [
                                         "emptyFirstItem"=>false
                                     ],
                                 ],
+                                "read"=>[//конвертирует строку со списком ID групп в массив
+                                    "StringToArray"=>[]
+                                ],
                             ],
-                            'attributes' => [
+                            /*'attributes' => [
                                 "multiple"=>true,
                                 "size"=>7,
-                            ],
+                            ],*/
                             'options'=>[
                                 "label"=>"Член групп",
                                 
@@ -64,6 +70,7 @@ return [
                         RowModelHelper::submit("submit",[
                             'attributes'=>['value' => 'Записать'],
                         ]),
+                        //это ID юзера
                         RowModelHelper::hidden("id"),
                     ],
 
