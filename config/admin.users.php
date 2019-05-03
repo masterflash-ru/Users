@@ -128,15 +128,32 @@ return [
                                                         "icon"=> "ui-icon-contact",
                                                         "dialog"=>[
                                                             "title"=>"Базовый профиль",
-                                                            //"width"=>500
+                                                            "resizable"=>true,
+                                                            "closeOnEscape"=>true,
+                                                            "width"=>"auto",
+                                                            "position"=>[
+                                                                "my"=>"left top",
+                                                                "at"=>"left top",
+                                                                "of"=>"#contant-container"
+                                                            ],
+
                                                         ],
                                                      ],
                                                     "button2"=> [
                                                         "label"=>"Сменить пароль",
-                                                        "interface"=>"/adm/universal-interface/usergroups",
+                                                        "interface"=>"/adm/universal-interface/users_password",
                                                         "icon"=> "ui-icon-locked",
                                                         "dialog"=>[
                                                             "title"=>"Сменить пароль",
+                                                            "resizable"=>true,
+                                                            "closeOnEscape"=>true,
+                                                            "width"=>"auto",
+                                                            "position"=>[
+                                                                "my"=>"left top",
+                                                                "at"=>"left top",
+                                                                "of"=>"#contant-container"
+                                                            ],
+
                                                         ],
 
                                                      ],
