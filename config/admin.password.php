@@ -24,7 +24,7 @@ return [
             /*поведение формы*/
             "actionsEvent"=>[
                 /*что делать после успешной записи формы*/
-                "FormAfterSubmitOkEvent"=>'setTimeout(function(){$("#interfacesDialog1").dialog("close");},500);',
+                "FormAfterSubmitOkEvent"=>'setTimeout(function(){$("#interfacesDialog").dialog("close");},500);',
             ],
 
             /*внешний вид*/
