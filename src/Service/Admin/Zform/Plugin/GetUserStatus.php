@@ -4,7 +4,7 @@
 namespace Mf\Users\Service\Admin\Zform\Plugin;
 
 use Admin\Service\Zform\Plugin\AbstractPlugin;
-
+use Zend\Form\FormInterface;
 
 class GetUserStatus extends AbstractPlugin
 {
@@ -19,9 +19,9 @@ class GetUserStatus extends AbstractPlugin
     /**
     * преобразование элементов rowModel, например, для генерации списков
     * $rowModel - элемент $rowModel из конфигурации
-    * возвращает тот же $rowModel, с внесенными изменениями
+    * $form - экземпляр формы, в нее нужно заносить информацию
     */
-    public function rowModel(array $rowModel)
+    public function rowModel(array $rowModel, FormInterface $form)
     {
         $config=$this->config['users_status'];
         unset($config[-1]);
@@ -31,9 +31,9 @@ class GetUserStatus extends AbstractPlugin
                 $rez[$s]=$v;
             }
         }
-        $rowModel['options']["value_options"]=$rez;
+        $form->get($rowModel["name"])->setValueOptions($rez);
         
-        return $rowModel;
+
     }
 
 

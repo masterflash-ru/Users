@@ -14,15 +14,17 @@ return [
             "container-attr"=>"style='width:300px'",
         
             
-            /*все что касается чтения в таблицу*/
-            "edit1"=>[
-                "EditUserProfile"=>[],
+            "read"=>[
+                "EditUserPassword"=>[],
+            ],
+            "edit"=>[
+                "EditUserPassword"=>[],
             ],
             
             /*поведение формы*/
             "actionsEvent"=>[
                 /*что делать после успешной записи формы*/
-                "FormAfterSubmitOkEvent"=>'setTimeout(function(){$("#interfacesDialog").dialog("close");},500);',
+                "FormAfterSubmitOkEvent"=>'setTimeout(function(){$("#interfacesDialog1").dialog("close");},500);',
             ],
 
             /*внешний вид*/
@@ -30,14 +32,24 @@ return [
                 "caption" => "Изменить пароль",
                 "rowModel" => [
                     'elements' => [
-                        RowModelHelper::text("password",['options'=>["label"=>"Пароль"]]),
-                        RowModelHelper::text("password1",['options'=>["label"=>"Повторите пароль"]]),
+                        RowModelHelper::text("password",[
+                            'options'=>[
+                                "label"=>"Новый пароль"
+                            ],
+                        ]),
                         RowModelHelper::submit("submit",[
                             'attributes'=>['value' => 'Записать'],
                         ]),
 
                         //это ID юзера
                         RowModelHelper::hidden("id"),
+                    ],
+                    
+                    /*конфигурация фильтров и валидаторов, СМ. Документацию к ZF3*/
+                    'input_filter' => [
+                        "password" => [
+                            'required' => true,
+                        ],
                     ],
 
                 ],
