@@ -113,6 +113,8 @@ CREATE TABLE `users_ext` (
 LOCK TABLES `users_ext` WRITE;
 /*!40000 ALTER TABLE `users_ext` DISABLE KEYS */;
 INSERT INTO `users_ext` VALUES (1);
+INSERT INTO `users_ext` VALUES (2);
+INSERT INTO `users_ext` VALUES (11);
 /*!40000 ALTER TABLE `users_ext` ENABLE KEYS */;
 UNLOCK TABLES;
 
