@@ -29,7 +29,7 @@ return [
             /*поведение формы*/
             "actionsEvent"=>[
                 /*что делать после успешной записи формы*/
-                "FormAfterSubmitOkEvent"=>'$("#usersall").trigger("reloadGrid");setTimeout(function(){$("#interfacesDialog").dialog("close");},500);',
+               // "FormAfterSubmitOkEvent"=>'$("#usersall").trigger("reloadGrid");setTimeout(function(){$("#interfacesDialog").dialog("close");},500);',
             ],
 
             /*внешний вид*/

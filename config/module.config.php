@@ -101,7 +101,9 @@ return [
         "usergroups"=>__DIR__."/admin.usergroups.php",
         "users"=>__DIR__."/admin.users.php",
         "users_profile"=>__DIR__."/admin.profile.php",
+        "users_profile_ext"=>__DIR__."/admin.profileext.php",
         "users_password"=>__DIR__."/admin.password.php",
+        "usersdetal"=>__DIR__."/admin.userdetal.php",
     ]
 
 ];

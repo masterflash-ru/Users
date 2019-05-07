@@ -123,14 +123,14 @@ return [
                                              "formatoptions" => [
                                                  "items"=>[
                                                     "button1"=> [
-                                                        "label"=>"Базовый профиль",
-                                                        "interface"=>"/adm/universal-interface/users_profile",
+                                                        "label"=>"Подробности",
+                                                        "interface"=>"/adm/universal-interface/usersdetal",
                                                         "icon"=> "ui-icon-contact",
                                                         "dialog"=>[
-                                                            "title"=>"Базовый профиль",
+                                                            "title"=>"Подробности",
                                                             "resizable"=>true,
                                                             "closeOnEscape"=>true,
-                                                            "width"=>"auto",
+                                                            "width"=>"580",
                                                             "position"=>[
                                                                 "my"=>"left top",
                                                                 "at"=>"left top",
@@ -138,24 +138,6 @@ return [
                                                             ],
 
                                                         ],
-                                                     ],
-                                                    "button2"=> [
-                                                        "label"=>"Сменить пароль",
-                                                        "interface"=>"/adm/universal-interface/users_password",
-                                                        "icon"=> "ui-icon-locked",
-                                                        "dialog"=>[
-                                                            "title"=>"Сменить пароль",
-                                                            "resizable"=>true,
-                                                            "closeOnEscape"=>true,
-                                                            "width"=>"auto",
-                                                            "position"=>[
-                                                                "my"=>"left top",
-                                                                "at"=>"left top",
-                                                                "of"=>"#contant-container"
-                                                            ],
-
-                                                        ],
-
                                                      ],
                                                  ],
                                              ]
