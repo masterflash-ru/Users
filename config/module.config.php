@@ -36,6 +36,15 @@ return [
             'user' => View\Helper\User::class,
         ],
     ],
+    "permission"=>[
+        "objects" =>[
+            "interface/systemgroups" =>  [1,1,0740],
+            "interface/usergroups" =>    [1,1,0740],
+            "interface/users" =>         [1,1,0760],
+            "interface/users_profile" => [1,1,0760],
+            "interface/users_password" =>[1,1,0760],
+        ],
+    ],
 
     "users" => [
         /*базовый список допустимых состояний регистрированных юзеров, ключ - это код состояния*/
