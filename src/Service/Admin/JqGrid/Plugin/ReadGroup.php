@@ -33,7 +33,7 @@ class ReadGroup extends AbstractPlugin
     * $colModel - элемент $colModel из конфигурации
     * возвращает тот же $colModel, с внесенными изменениями
     */
-    public function colModel(array $colModel)
+    public function colModel(array $colModel, array $toolbarData=[])
     {
         $rez=[0=>""];
         $rs=$this->connection->Execute("select id,name from users_group order by name");

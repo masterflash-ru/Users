@@ -21,7 +21,7 @@ class UserStatus extends AbstractPlugin
     * $colModel - элемент $colModel из конфигурации
     * возвращает тот же $colModel, с внесенными изменениями
     */
-    public function colModel(array $colModel)
+    public function colModel(array $colModel, array $toolbarData=[])
     {
         unset($this->config[-1]);
         $colModel["editoptions"]["value"]=$this->config;
