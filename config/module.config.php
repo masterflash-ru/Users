@@ -66,7 +66,7 @@ return [
     //обратный адрес
     "email_robot"=>"robot@".trim($_SERVER["SERVER_NAME"],"w."),
     /*Канонический адрес сайта*/
-    "ServerDefaultUri"=>"http://".trim($_SERVER["SERVER_NAME"],"w."),
+    "ServerDefaultUri"=>$_SERVER["REQUEST_SCHEME"]."://".trim($_SERVER["SERVER_NAME"],"w."),
     
     /*плагины для сетки JqGrid*/
     "JqGridPlugin"=>[
