@@ -19,7 +19,7 @@ class EditUserPassword extends AbstractPlugin
     /**
     * запись
     */
-    public function edit($postParameters,$getParameters)
+    public function iedit($postParameters,$getParameters)
     {
        // \Zend\Debug\Debug::dump($postParameters);
         $this->UserManager->updateUserInfo ($postParameters["id"], $postParameters);
@@ -28,7 +28,7 @@ class EditUserPassword extends AbstractPlugin
     /**
     *чтение
     */
-    public function read($getParameters)
+    public function iread($getParameters)
     {
         return $getParameters;
     }

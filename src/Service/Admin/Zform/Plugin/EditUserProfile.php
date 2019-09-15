@@ -18,7 +18,7 @@ class EditUserProfile extends AbstractPlugin
     
     /**
     */
-    public function edit($postParameters,$getParameters)
+    public function iedit($postParameters,$getParameters)
     {
        // \Zend\Debug\Debug::dump($postParameters);
         $this->UserManager->updateUserInfo ($postParameters["id"], $postParameters);
