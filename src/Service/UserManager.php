@@ -283,7 +283,8 @@ class UserManager
             throw new Exception\NotFoundException("Пользователя с логином " . $login . " нет");
         }
         $pass=Rand::getString($passwordLen, '0123456789!@#%$abcdefghijklmnopqrstuvwxyz', true);
-        $rs->Fields->Item["temp_password"]->Value =$pass;
+        $bcrypt = new Bcrypt();
+        $rs->Fields->Item["temp_password"]->Value =$bcrypt->create($pass);
         $rs->Fields->Item["temp_date"]->Value  = date('Y-m-d H:i:s',time()+$this->passwordLifetime);
         $rs->Update();
         return $pass;
