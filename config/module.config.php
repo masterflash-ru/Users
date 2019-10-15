@@ -2,6 +2,12 @@
 namespace Mf\Users;
 use Zend\Authentication\AuthenticationService;
 
+if (empty($_SERVER["SERVER_NAME"])){
+    //скорей всего запустили из консоли
+    $_SERVER["SERVER_NAME"]="localhost";
+    $_SERVER["REQUEST_SCHEME"]="http";
+}
+
 return [
     'service_manager' => [
         'factories' => [
@@ -64,7 +70,7 @@ return [
         "users_status_login" => [3],
     ],
     //обратный адрес
-    "email_robot"=>"robot@".trim($_SERVER["SERVER_NAME"],"w."),
+    "email_robot"=>"robot@".trim((isset($_SERVER["SERVER_NAME"])) ? $_SERVER["SERVER_NAME"]:"localhost","w."),
     /*Канонический адрес сайта*/
     "ServerDefaultUri"=>$_SERVER["REQUEST_SCHEME"]."://".trim($_SERVER["SERVER_NAME"],"w."),
     
