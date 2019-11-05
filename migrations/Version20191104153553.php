@@ -33,9 +33,9 @@ class Version20191104153553 extends AbstractMigration implements MigrationInterf
                       KEY `login` (`login`)
                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='регистрированные юзеры (база)'");
 
-                    $this->addSql("INSERT INTO `users` VALUES (1,'root',3,'$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW','root','root',NULL,NULL,NULL,NULL,NULL)");
-                    $this->addSql("INSERT INTO `users` VALUES (2,'guest',4,'$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW','guest','guest',NULL,NULL,NULL,NULL,NULL)");
-                    $this->addSql("INSERT INTO `users` VALUES (11,'test',4,'$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW','guest','guest',NULL,NULL,NULL,NULL,NULL)");
+                    $this->addSql('INSERT INTO `users` VALUES (1,"root",3,"$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW","root","root",NULL,NULL,NULL,NULL,NULL)');
+                    $this->addSql('INSERT INTO `users` VALUES (2,"guest",4,"$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW","guest","guest",NULL,NULL,NULL,NULL,NULL)');
+                    $this->addSql('INSERT INTO `users` VALUES (11,"test",4,"$2y$10$R4b7CZhWutZPDlNFoUF9Se/LVeHrWtsnRj4OM4HxC4yxc3scLObYW","guest","guest",NULL,NULL,NULL,NULL,NULL)');
 
                     $this->addSql("CREATE TABLE `users_group` (
                       `id` int(11) NOT NULL AUTO_INCREMENT,
