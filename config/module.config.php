@@ -53,6 +53,10 @@ return [
     ],
 
     "users" => [
+        "config"=>[
+            "database"  =>  "DefaultSystemDb",
+            "cache"     =>  "DefaultSystemCache",
+        ],
         /*базовый список допустимых состояний регистрированных юзеров, ключ - это код состояния*/
         'users_status' => [
             0=>"Состояние не определено",
