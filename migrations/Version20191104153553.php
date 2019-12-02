@@ -8,6 +8,7 @@ use Zend\Db\Sql\Ddl;
 use Zend\Db\Sql;
 
 
+
 class Version20191104153553 extends AbstractMigration implements MigrationInterface
 {
     public static $description = "Create users table";
