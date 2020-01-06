@@ -1,6 +1,7 @@
 <?php
 namespace Mf\Users;
-use Zend\Authentication\AuthenticationService;
+
+use Laminas\Authentication\AuthenticationService;
 
 if (empty($_SERVER["SERVER_NAME"])){
     //скорей всего запустили из консоли
@@ -11,7 +12,7 @@ if (empty($_SERVER["SERVER_NAME"])){
 return [
     'service_manager' => [
         'factories' => [
-            /*инициализация Zend\Authentication\AuthenticationService - в фабрике передается адаптер аутентификации и хранилище*/
+            /*инициализация Laminas\Authentication\AuthenticationService - в фабрике передается адаптер аутентификации и хранилище*/
             AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,

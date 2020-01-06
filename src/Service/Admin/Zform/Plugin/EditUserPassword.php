@@ -21,7 +21,7 @@ class EditUserPassword extends AbstractPlugin
     */
     public function iedit($postParameters,$getParameters)
     {
-       // \Zend\Debug\Debug::dump($postParameters);
+       // \Laminas\Debug\Debug::dump($postParameters);
         $this->UserManager->updateUserInfo ($postParameters["id"], $postParameters);
     }
 

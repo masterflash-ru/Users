@@ -4,7 +4,7 @@
 namespace Mf\Users\Service\Admin\Zform\Plugin;
 
 use Admin\Service\Zform\Plugin\AbstractPlugin;
-use Zend\Form\FormInterface;
+use Laminas\Form\FormInterface;
 
 class GetUserStatus extends AbstractPlugin
 {

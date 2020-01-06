@@ -3,8 +3,8 @@ namespace Mf\Users\Service;
 
 use Mf\Users\Entity\Users;
 
-use Zend\Crypt\Password\Bcrypt;
-use Zend\Math\Rand;
+use Laminas\Crypt\Password\Bcrypt;
+use Laminas\Math\Rand;
 use Mf\Users\Exception;
 use ADO\Service\RecordSet;
 use ADO\Service\Command;

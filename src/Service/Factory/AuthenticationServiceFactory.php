@@ -3,9 +3,9 @@ namespace Mf\Users\Service\Factory;
 
 use Interop\Container\ContainerInterface;
 
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\Session\SessionManager;
-use Zend\Authentication\Storage\Session as SessionStorage;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\Session\SessionManager;
+use Laminas\Authentication\Storage\Session as SessionStorage;
 use Mf\Users\Service\AuthAdapter;
 
 

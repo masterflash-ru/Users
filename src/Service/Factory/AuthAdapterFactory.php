@@ -3,7 +3,7 @@ namespace Mf\Users\Service\Factory;
 
 use Interop\Container\ContainerInterface;
 use Mf\Users\Service\AuthAdapter;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
 фабрика адаптера авторизацйии

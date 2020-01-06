@@ -3,12 +3,12 @@
 *менеджер авторизации, объект который обращается в адаптер авторизации и сохраняет результат успешной авторизации в хранилище, сессии
 *данный объект вызывает Mf\Users\Service\AuthAdapter, передает туда логин/пароль и получает ответ, 
 *этот ответ возвращается в программу которая
-*вызвала, возвращается Zend\Authentication\Result
+*вызвала, возвращается Laminas\Authentication\Result
 */
 
 namespace Mf\Users\Service;
 
-use Zend\Authentication\Result;
+use Laminas\Authentication\Result;
 use Mf\Users\Exception;
 
 
@@ -25,13 +25,13 @@ class AuthManager
 
     /**
      * Authentication service.
-     * @var \Zend\Authentication\AuthenticationService
+     * @var \Laminas\Authentication\AuthenticationService
      */
     private $authService;
     
     /**
      * Session manager.
-     * @var Zend\Session\SessionManager
+     * @var Laminas\Session\SessionManager
      */
     private $sessionManager;
     
@@ -46,7 +46,7 @@ class AuthManager
      */
     public function __construct($authService, $sessionManager) 
     {
-        /*это экземпляр Zend\Authentication\AuthenticationService
+        /*это экземпляр Laminas\Authentication\AuthenticationService
         * в фабрике передается в конструктор адаптер (наш) и хранилище (сессия)
         * получаем полностью работоспособный сервис, в сессию сохраняется идентификатор юзера
         */

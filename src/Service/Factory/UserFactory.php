@@ -5,7 +5,7 @@ use Interop\Container\ContainerInterface;
 
 use Mf\Users\Service\UserManager;
 use Mf\Users\Service\User;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 /**
  */

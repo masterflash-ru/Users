@@ -1,16 +1,16 @@
 <?php
 /*
 * Объект который собственно производит авторизацию, 
-* возвращает экземпляр  Zend\Authentication\Result с результатом аутентификации
+* возвращает экземпляр  Laminas\Authentication\Result с результатом аутентификации
 */
 namespace Mf\Users\Service;
 
 
-use Zend\Authentication\Adapter\AdapterInterface;
-use Zend\Authentication\Result;
-use Zend\Crypt\Password\Bcrypt;
+use Laminas\Authentication\Adapter\AdapterInterface;
+use Laminas\Authentication\Result;
+use Laminas\Crypt\Password\Bcrypt;
 use Mf\Users\Entity\Users;
-use Zend\Authentication\Adapter\AbstractAdapter;
+use Laminas\Authentication\Adapter\AbstractAdapter;
 
 use ADO\Service\RecordSet;
 use ADO\Service\Command;

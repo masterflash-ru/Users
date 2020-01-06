@@ -7,7 +7,7 @@
 namespace Mf\Users\View\Helper;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mf\Users\Service\User;
 
 class UserFactory implements FactoryInterface

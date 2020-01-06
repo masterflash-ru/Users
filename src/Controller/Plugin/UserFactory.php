@@ -7,9 +7,9 @@
 namespace Mf\Users\Controller\Plugin;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-//use Zend\Authentication\AuthenticationService;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+//use Laminas\Authentication\AuthenticationService;
 
 use Mf\Users\Service\User;
 
@@ -27,7 +27,7 @@ class UserFactory implements FactoryInterface
     /**
      * Create and return Acl instance
      *
-     * For use with zend-servicemanager v2; proxies to __invoke().
+     * For use with Laminas-servicemanager v2; proxies to __invoke().
      *
      * @param ServiceLocatorInterface $container
      * @return Acl

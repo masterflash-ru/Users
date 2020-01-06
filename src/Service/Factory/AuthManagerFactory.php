@@ -2,9 +2,9 @@
 namespace Mf\Users\Service\Factory;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\Authentication\AuthenticationService;
-use Zend\Session\SessionManager;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Session\SessionManager;
 
 
 

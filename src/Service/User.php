@@ -2,7 +2,7 @@
 namespace Mf\Users\Service;
 
 use Mf\Users\Entity\Users;
-use Zend\Authentication\AuthenticationServiceInterface;
+use Laminas\Authentication\AuthenticationServiceInterface;
 use Exception;
 
 
@@ -61,7 +61,7 @@ class User
         $this->Cache=$Cache;
     }
 
-    /*повторяет метод identity плагина zend-mvc-plugin-identity
+    /*повторяет метод identity плагина Laminas-mvc-plugin-identity
     * если юзер авторизован, возвращается его ID, если нет то ничего
     */
     public function identity()
