@@ -349,7 +349,7 @@ class UserManager
 
         //пробежим по расширеной таблице
         foreach ($this->db_field_ext as $field){
-            if (array_key_exists($field,$data)){
+            if (array_key_exists($field,$data) && $field!="id"){
                 $rs_ext->Fields->Item[$field]->Value=$data[$field];
             }
         }
